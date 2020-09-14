@@ -8,8 +8,9 @@ import tensorflow as tf
 random.seed(123)  # for reproducibility
 learning_rate = 0.001
 batch_size = 100
-training_epochs = 10
+training_epochs = 15
 nb_classes = 10
+drop_rate = 0.3
 
 (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
 print(x_train.shape)
@@ -20,10 +21,13 @@ x_test = x_test.reshape(x_test.shape[0], x_test.shape[1] * x_test.shape[2])
 y_train = tf.keras.utils.to_categorical(y_train, nb_classes)
 y_test = tf.keras.utils.to_categorical(y_test, nb_classes)
 
-tf.model = tf.keras.Sequential()
-tf.model.add(tf.keras.layers.Dense(input_dim=784, units=256, activation='relu'))
-tf.model.add(tf.keras.layers.Dense(units=256, activation='relu'))
-tf.model.add(tf.keras.layers.Dense(units=nb_classes, activation='softmax'))
+tf.model.add(tf.keras.layers.Dense(input_dim=784, units=512, kernel_initializer='glorot_normal', activation='relu'))
+tf.model.add(tf.keras.layers.Dropout(drop_rate))
+tf.model.add(tf.keras.layers.Dense(units=512, kernel_initializer='glorot_normal', activation='relu'))
+tf.model.add(tf.keras.layers.Dropout(drop_rate))
+tf.model.add(tf.keras.layers.Dense(units=512, kernel_initializer='glorot_normal', activation='relu'))
+tf.model.add(tf.keras.layers.Dropout(drop_rate))
+tf.model.add(tf.keras.layers.Dense(units=nb_classes, kernel_initializer='glorot_normal', activation='softmax'))
 tf.model.compile(loss='categorical_crossentropy',
                  optimizer=tf.keras.optimizers.Adam(lr=learning_rate), metrics=['accuracy'])
 tf.model.summary()
