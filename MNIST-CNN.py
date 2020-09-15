@@ -25,9 +25,11 @@ tf.model = tf.keras.Sequential()
 
 tf.model.add(tf.keras.layers.Conv2D(filters = 16, kernel_size=(3,3), input_shape = (28,28,1), activation='relu'))
 tf.model.add(tf.keras.layers.MaxPooling2D(pool_size=(2,2)))
+tf.model.add(tf.keras.layers.Dropout(drop_rate))
 
 tf.model.add(tf.keras.layers.Conv2D(filters = 16, kernel_size=(3,3), input_shape = (28,28,1), activation='relu'))
 tf.model.add(tf.keras.layers.MaxPooling2D(pool_size=(2,2)))
+tf.model.add(tf.keras.layers.Dropout(drop_rate))
 
 tf.model.add(tf.keras.layers.Flatten())
 tf.model.add(tf.keras.layers.Dense(units=nb_classes, kernel_initializer='glorot_normal', activation='softmax'))
